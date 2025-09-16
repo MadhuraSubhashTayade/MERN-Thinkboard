@@ -8,6 +8,10 @@ const PORT = process.env.PORT || 5001;
 
 const app = express();
 connectDb();
+
+// middleware - allows access for req.body
+app.use(express.json());
+
 app.use("/api/notes", router);
 
 // if there are routes for some other category then we can do:
