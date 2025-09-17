@@ -3,14 +3,26 @@ import router from "./routes/notesRoutes.js";
 import { connectDb } from "./config/db.js";
 
 import dotenv from "dotenv";
+import rateLimiter from "./middleware/rateLimiter.js";
 dotenv.config();
 const PORT = process.env.PORT || 5001;
 
 const app = express();
-connectDb();
 
-// middleware - allows access for req.body
+// middleware - it parses JSON bodies and allows access for req.body
 app.use(express.json());
+
+// ratelimiter middleware
+app.use(rateLimiter);
+
+// our simple custom middleware
+app.use((req, res, next) => {
+  console.log(
+    "calling my custom middleware which calls before sending response"
+  );
+  console.log(`Req method is ${req.method} and req url is ${req.url}`);
+  next();
+});
 
 app.use("/api/notes", router);
 
@@ -33,6 +45,9 @@ app.use("/api/notes", router);
 //   res.status(200).json({ message: "Post deleted successfully!" });
 // });
 
-app.listen(PORT, () => {
-  console.log(`Server listening on PORT ${PORT}!!`);
+// first connect to the db, then start the server
+connectDb().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server listening on PORT ${PORT}!!`);
+  });
 });
