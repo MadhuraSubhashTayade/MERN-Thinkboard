@@ -1,9 +1,19 @@
-import React from 'react'
+import { Route, Routes } from "react-router";
+import HomePage from "./Pages/HomePage";
+import NoteDetailPage from "./Pages/NoteDetailPage";
+import CreateNotePage from "./Pages/CreateNotePage";
 
 const App = () => {
   return (
-    <div>App</div>
-  )
-}
+    <div data-theme="forest">
+      <button className="btn btn-primary">Click me</button>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/create" element={<CreateNotePage />} />
+        <Route path="/note/:id" element={<NoteDetailPage />} />
+      </Routes>
+    </div>
+  );
+};
 
-export default App
+export default App;
