@@ -1,9 +1,5 @@
-import React from 'react'
-
 const CreateNotePage = () => {
-  return (
-    <div>CreateNotePage</div>
-  )
-}
+  return <div>CreateNotePage</div>;
+};
 
-export default CreateNotePage
+export default CreateNotePage;
