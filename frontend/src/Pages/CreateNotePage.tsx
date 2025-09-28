@@ -1,8 +1,8 @@
-import axios from "axios";
-import { ArrowLeftIcon, SkullIcon } from "lucide-react";
-import { useState } from "react";
+import { ArrowLeftIcon } from "lucide-react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router";
+import { AxiosApiInstance } from "../lib/axios";
 
 const CreateNotePage = () => {
   const [title, setTitle] = useState("");
@@ -10,7 +10,7 @@ const CreateNotePage = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!title.trim() || !content.trim()) {
       toast.error("All fields are required!");
@@ -19,7 +19,7 @@ const CreateNotePage = () => {
 
     setLoading(true);
     try {
-      await axios.post("http://localhost:5001/api/notes", {
+      await AxiosApiInstance.post("/notes", {
         title,
         content,
       });
@@ -29,7 +29,7 @@ const CreateNotePage = () => {
       console.log("Error creating note : ", error);
       if (error.response.status === 429) {
         toast.error("Slow down! You're creating notes too fast!", {
-          duration: 4000,
+          duration: 3000,
           icon: "",
         });
       } else toast.error("Failed to create note!");
