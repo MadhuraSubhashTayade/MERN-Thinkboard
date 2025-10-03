@@ -1,0 +1,48 @@
+version: "3.9"
+
+services:
+  # MongoDB service
+  mongo:
+    image: mongo:7.0 # Official MongoDB image
+    container_name: thinkboard-mongo # Container name
+    ports:
+      - "27017:27017" # Expose MongoDB port to host (localhost:27017)
+    volumes:
+      - mongo-data:/data/db # Persist data across container restarts
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  # Backend service (Node.js + Express)
+  backend:
+    build: ./backend # Build image from backend Dockerfile
+    container_name: thinkboard-backend
+    ports:
+      - "5001:5001" # Map host port 5001 to container port 5001
+    environment:
+      NODE_ENV: development # Node environment
+      MONGO_URI: mongodb://root:example@mongo:27017/ # Connect to Mongo container
+    depends_on:
+      - mongo # Start MongoDB before backend
+    volumes:
+      - ./backend:/app # Mount backend source code for live edits
+      - /app/node_modules # Persist node_modules in container
+
+  # Frontend service (React + Vite)
+  frontend:
+    build: ./frontend # Build image from frontend Dockerfile
+    container_name: thinkboard-frontend
+    ports:
+      - "5173:5173" # Map host port 5173 to frontend dev server
+    environment:
+      NODE_ENV: development
+      REACT_APP_API_URL: http://localhost:5001 # URL to backend API for frontend calls
+    depends_on:
+      - backend # Ensure backend starts before frontend
+    volumes:
+      - ./frontend:/app # Mount frontend source code for hot reload
+      - /app/node_modules # Persist node_modules in container
+
+# Docker volumes for persistent data
+volumes:
+  mongo-data: # Stores MongoDB data outside container
