@@ -19,6 +19,8 @@ Containerization
 
 - Docker & Docker Compose for full-stack deployment
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 ✨ Features
 
 - Create and manage boards
@@ -27,74 +29,80 @@ Containerization
 - Fully responsive design
 - Dockerized for easy development and deployment
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 📂 Folder Structure
 
-MERN-Thinkboard/
-│
-├── backend/
-│ ├── src/
-│ │ ├── server.js
-│ │ ├── routes/
-│ │ ├── models/
-│ │ └── config/
-│ └── package.json
-│
-├── frontend/
-│ ├── src/
-│ ├── public/
-│ └── package.json
-│
+<pre>├── backend
+│   ├── src
+│   │   ├── server.js
+│   │   ├── routes
+│   │   ├── models
+│   │   ├── middleware
+│   │   ├── controllers
+│   │   └── config
+│   └── package.json
+│   └── Dockerfile   
+├── frontend
+│   ├── src
+│   ├── public
+│   └── package.json
+│   └── Dockerfile    
 ├── docker-compose.yml
-└── README.md
+└── README.md</pre>
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ⚙️ Installation & Setup
 
 1. Clone the repository
-   git clone https://github.com/MadhuraSubhashTayade/MERN-Thinkboard.git
-   cd MERN-Thinkboard
+  
+   `git clone https://github.com/MadhuraSubhashTayade/MERN-Thinkboard.git`
+
+   `cd MERN-Thinkboard`
 
 2. Environment Variables
+  
+   Create `.env` files for backend and frontend:
 
-Create .env files for backend and frontend if needed:
 
-Backend (backend/.env)
-PORT=5000
-MONGO_URI=your_mongodb_connection_string
-UPSTASH_REDIS_URL=your_upstash_redis_url
+   Backend (backend/.env)
+   - PORT=5000
+   - MONGO_URI=your_mongodb_connection_string
+   - UPSTASH_REDIS_URL=your_upstash_redis_url
 
-Frontend (frontend/.env)
-VITE_API_URL=http://localhost:5000
 
-Note: Vite uses VITE\_ prefix for environment variables.
+   Frontend (frontend/.env)
+   - VITE_API_URL=http://localhost:5000
 
-3. Run Full Stack with Docker
+4. Run Full Stack with Docker
+   Build and start all services (frontend, backend, MongoDB, Redis):
+   - docker-compose up --build
+   
+   Stop all services:
+   - docker-compose down
+   
+   After this, your app should be available at:
+   - Frontend: http://localhost:5173
+   - Backend: http://localhost:5001
 
-Build and start all services (frontend, backend, MongoDB, Redis):
+6. Manual Development
 
-- docker-compose up --build
+   You can still run frontend and backend locally without Docker:
 
-Stop all services:
+   Backend
 
-- docker-compose down
+   `cd backend
+   npm install
+   npm run dev`
 
-After this, your app should be available at:
+   Frontend
 
-Frontend: http://localhost:5173
-Backend: http://localhost:5001
+   `cd frontend
+   npm install
+   npm run dev`
 
-4. Manual Development
-
-You can still run frontend and backend locally without Docker:
-
-Backend
-cd backend
-npm install
-npm run dev
-
-Frontend
-cd frontend
-npm install
-npm run dev
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 🌍 Deployment
 
